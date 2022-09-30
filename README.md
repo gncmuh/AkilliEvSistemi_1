@@ -4,4 +4,9 @@ yeni özellikler eklemeler devam ettiğini geliştirildiğini göstermektedir.
 Bu proje şuan için sadece iki oda kontrolü ve manuel olarak sağlamakla birlikte
 kontrolleri otomasyona devretme özellikleri mevcuttur proje oda sayısı artırılabilir.
 
+Devre şeması üzerinde bulunan DC motorlar klimaları temsil etmektedir.
+
 #İyi çalışmalar..
+
+
+
