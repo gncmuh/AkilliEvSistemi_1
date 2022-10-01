@@ -1,3 +1,6 @@
+/*Herkese iyi çalışmalar diliyorum.
+ Sabri Genç
+ */
 #include <LiquidCrystal_I2C.h>
 #include <IRremote.h>
 
