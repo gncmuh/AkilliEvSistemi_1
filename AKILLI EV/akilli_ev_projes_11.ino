@@ -4,7 +4,6 @@
 #include <LiquidCrystal_I2C.h>
 #include <IRremote.h>
 
-
 #define kabul_tusu 95 
 #define sag_yon_tusu 159
 #define sol_yon_tusu 223
@@ -13,13 +12,11 @@ struct pinler {
   const byte pinler[12] PROGMEM={2,3,4,5,6,7,8,9,
                                A0,A1,A2};
 };
-
+struct pinler pin;
 // 6.pin motor 1 etkinleştirme pinidir.
 // 8.pin motor 1 hareket pinidir.
 // 7.pin motor 2 etkinleştirme pinidir.
 // 9.pin motor 2 hareket pinidir.
-
-struct pinler pin;
 
 union sensor_degerler {
 
@@ -52,8 +49,9 @@ void setup()
   {
     for(int i=0; i<12; i++)
     {
-      if(i>=0 and i<8) pinMode(pin.pinler[i],OUTPUT);
+      if(i>=1 and i<8) pinMode(pin.pinler[i],OUTPUT);
       else pinMode(pin.pinler[i],INPUT);
+
     }
     digitalWrite(pin.pinler[4],HIGH);digitalWrite(pin.pinler[5],HIGH);
     kumanda.enableIRIn();kumanda.start();
@@ -61,14 +59,11 @@ void setup()
  
   }
 }
-
 void loop()
 {                                    
   ekran_yonetimi();
   delay(1);
-
 }
-
 void baslatma_ekrani() {
  
   if(!bool(0))
@@ -80,13 +75,10 @@ void baslatma_ekrani() {
       lcd.setCursor(i,1);lcd.print(F("*"));
       delay(45);
     }
-  }
-    
+  }   
 }
-
 void ekran_yonetimi() {
-  
-  
+ 
   if(!bool(0))
   {
     if(bayrak==false)
@@ -127,7 +119,7 @@ void ekran_yonetimi() {
               if(sens.kumanda_gelen==159)
               { 
                 sayac++;
-              	if(sayac>10) sayac=7;
+                if(sayac>10) sayac=7;
               }
               if(sens.kumanda_gelen==223)
               {
@@ -274,7 +266,7 @@ void ekran_yonetimi() {
                                     if(kumanda.decode(&kaynak))
                                     {
                                       sens.kumanda_gelen=kaynak.value;
-									  if(sens.kumanda_gelen==159)
+                    if(sens.kumanda_gelen==159)
                                       {
                                         sayac++;
                                         if(sayac>8) sayac=15;
@@ -296,7 +288,7 @@ void ekran_yonetimi() {
                                             if(sens.kumanda_gelen==159)
                                             {
                                               sayac++;
-                                       		  if(sayac==5) sayac=7;
+                                            if(sayac==5) sayac=7;
                                             }
                                             else if(sens.kumanda_gelen==223)
                                             {
@@ -318,9 +310,9 @@ void ekran_yonetimi() {
                                             if(sens.kumanda_gelen==95 and sayac==9)
                                             {
                                               guncelleme_ekrani(); 
-                                        	  delay(10);
-                                        	  lcd.clear();
-                                        	  goto buradan11;
+                                            delay(10);
+                                            lcd.clear();
+                                            goto buradan11;
                                             }
                                             lcd.setCursor(sayac,1);
                                           }
@@ -377,7 +369,7 @@ void ekran_yonetimi() {
                                                     if(sens.kumanda_gelen==255)
                                                     {
                                                       lcd.backlight();
-                                                 	  lcd.clear();
+                                                    lcd.clear();
                                                       delay(50);
                                                       lcd.setCursor(0,0);lcd.print(F("OTOMASYON KAPALI"));
                                                       if(!bool(0))
@@ -394,7 +386,7 @@ void ekran_yonetimi() {
                                               }
                                               if(sens.kumanda_gelen==95 and sayac==8)
                                               {
-                                               	goto buradan9;
+                                                goto buradan9;
                                               }
                                               lcd.setCursor(sayac,1);
                                             }
@@ -482,13 +474,13 @@ void ekran_yonetimi() {
                                 if(sens.kumanda_gelen==159)
                                 {
                                   sayac++;
-                            	  if(sayac>8) sayac=15;
+                                if(sayac>8) sayac=15;
                                   else if(sayac==1) sayac=7;
                                 }
                                 if(sens.kumanda_gelen==223)
                                 {
                                   sayac--;
-								  if(sayac<6) sayac=0;
+                  if(sayac<6) sayac=0;
                                   else if(sayac==14) sayac=7;
                                 }
                                 if(sens.kumanda_gelen==95 and sayac==6)
@@ -545,7 +537,7 @@ void ekran_yonetimi() {
                     if(sens.kumanda_gelen==223)
                     {
                       sayac--;
-               		  if(sayac<6) sayac=0;
+                    if(sayac<6) sayac=0;
                       else if(sayac==14) sayac=7;                  
                     }
                     if(sens.kumanda_gelen==95 and sayac==6)
@@ -573,48 +565,48 @@ void ekran_yonetimi() {
                       buradan2:
                       klima_kontrol_hatti2();
                       while(true)
-                	  {
-                  		if(kumanda.decode(&kaynak))
-                  		{
-                   		   sens.kumanda_gelen=kaynak.value;
-                    	   if(sens.kumanda_gelen==159)
-                    	   {
-                      			sayac++;
-                      			if(sayac>8) sayac=15;
-                      			else if(sayac==1) sayac=7;
-                    		}
-                    		if(sens.kumanda_gelen==223)
-                    		{
-                      			sayac--;
-               		  			if(sayac<6) sayac=0;
-                      			else if(sayac==14) sayac=7;                  
-                    		}
-                    		if(sens.kumanda_gelen==95 and sayac==6)
-                    		{
-                      			klima_durum2=!klima_durum2;
-                      			bitWrite(PORTB,1,HIGH);
-                      			ikinci_klima();
-                      			delay(1000);
-                      			goto buradan2;
-                    		}
-                    		if(sens.kumanda_gelen==95 and sayac==8)
-                    		{
-                     			
-                      			bitWrite(PORTB,1,LOW);
-                      			ikinci_klima();
-                      			delay(1000);
-                      			goto buradan2;
+                    {
+                      if(kumanda.decode(&kaynak))
+                      {
+                         sens.kumanda_gelen=kaynak.value;
+                         if(sens.kumanda_gelen==159)
+                         {
+                            sayac++;
+                            if(sayac>8) sayac=15;
+                            else if(sayac==1) sayac=7;
+                        }
+                        if(sens.kumanda_gelen==223)
+                        {
+                            sayac--;
+                          if(sayac<6) sayac=0;
+                            else if(sayac==14) sayac=7;                  
+                        }
+                        if(sens.kumanda_gelen==95 and sayac==6)
+                        {
+                            klima_durum2=!klima_durum2;
+                            bitWrite(PORTB,1,HIGH);
+                            ikinci_klima();
+                            delay(1000);
+                            goto buradan2;
+                        }
+                        if(sens.kumanda_gelen==95 and sayac==8)
+                        {
+                          
+                            bitWrite(PORTB,1,LOW);
+                            ikinci_klima();
+                            delay(1000);
+                            goto buradan2;
                             }
-       						if(sens.kumanda_gelen==95 and sayac==0)
+                  if(sens.kumanda_gelen==95 and sayac==0)
                             {
                               goto buradan;
                             }
-                          	
-                    		lcd.setCursor(sayac,1);
-                  		}
-                  		kumanda.resume();
-                  		delay(1);
-                		}
+                            
+                        lcd.setCursor(sayac,1);
+                      }
+                      kumanda.resume();
+                      delay(1);
+                    }
                       
                     }
                     lcd.setCursor(sayac,1);
@@ -670,10 +662,10 @@ void ikinci_ekran_hatti() {
     lcd.setCursor(2,0);lcd.print(F("KLIMA KONTROL"));
     lcd.setCursor(6,1);
     for(int i=0; i<3; i++)
-  	{
+    {
        lcd.print(ekran_karakterleri[i]);lcd.print(F(" "));
        delay(5);
-  	}  
+    }  
   }
   lcd.blink();
   
@@ -687,10 +679,10 @@ void klima_kontrol_hatti()  {
   if(!bool(0))
   {
     lcd.setCursor(0,0);lcd.print(F("1.ODA KLIMA "));
-  	lcd.setCursor(6,1);lcd.print(F("A"));lcd.setCursor(8,1);
-  	lcd.print(F("K"));
-  	lcd.setCursor(0,1);lcd.print(F("<"));
-  	lcd.setCursor(15,1);lcd.print(F(">"));
+    lcd.setCursor(6,1);lcd.print(F("A"));lcd.setCursor(8,1);
+    lcd.print(F("K"));
+    lcd.setCursor(0,1);lcd.print(F("<"));
+    lcd.setCursor(15,1);lcd.print(F(">"));
   }
   lcd.blink();
   
@@ -703,48 +695,48 @@ void klima_kontrol_hatti2()  {
   if(!bool(0))
   {
     lcd.setCursor(0,0);lcd.print(F("2.ODA KLIMA"));
-  	lcd.setCursor(6,1);lcd.print(F("A"));lcd.setCursor(8,1);
-  	lcd.print(F("K"));
-  	lcd.setCursor(0,1);lcd.print(F("<"));
+    lcd.setCursor(6,1);lcd.print(F("A"));lcd.setCursor(8,1);
+    lcd.print(F("K"));
+    lcd.setCursor(0,1);lcd.print(F("<"));
   }  
   lcd.blink();
 }
 void ilk_klima()  {
- 	
+  
   lcd.noBlink();
   delay(5);
   if(klima_durum!=0)
   { 
     bool birinci_klima=bitRead(PORTB,0);
- 	if(birinci_klima==true)
+  if(birinci_klima==true)
     {
       lcd.clear();lcd.print(F("1.KLIMA AKTIF"));
     }
-  	else
-  	{
+    else
+    {
       lcd.clear();lcd.print(F("1.KLIMA KAPALI"));
       
-  	}
+    }
   }
   lcd.blink();
 }
 
 void ikinci_klima()  {
- 	
+  
   lcd.noBlink();
   delay(5);
   if(klima_durum2!=0)
   { 
     bool birinci_klima2=bitRead(PORTB,1);
- 	if(birinci_klima2==true)
+  if(birinci_klima2==true)
     {
       lcd.clear();lcd.print(F("2.KLIMA AKTIF"));
     }
-  	else
-  	{
+    else
+    {
       lcd.clear();lcd.print(F("2.KLIMA KAPALI"));
       
-  	}
+    }
   }
   lcd.blink();
 }
@@ -759,10 +751,10 @@ void ucuncu_ekran_hatti() {
     lcd.setCursor(2,0);lcd.print(F("ISIK KONTROL"));
     lcd.setCursor(6,1);
     for(int i=0; i<3; i++)
-  	{
+    {
        lcd.print(ekran_karakterleri[i]);lcd.print(F(" "));
        delay(5);
-  	}  
+    }  
   }
   lcd.blink();
   
@@ -776,31 +768,31 @@ void isik_kontrol_hatti()  {
   if(!bool(0))
   {
     lcd.setCursor(0,0);lcd.print(F("1.ODA ISIK "));
-  	lcd.setCursor(6,1);lcd.print(F("A"));lcd.setCursor(8,1);
-  	lcd.print(F("K"));
-  	lcd.setCursor(0,1);lcd.print(F("<"));
-  	lcd.setCursor(15,1);lcd.print(F(">"));
+    lcd.setCursor(6,1);lcd.print(F("A"));lcd.setCursor(8,1);
+    lcd.print(F("K"));
+    lcd.setCursor(0,1);lcd.print(F("<"));
+    lcd.setCursor(15,1);lcd.print(F(">"));
   }
   lcd.blink();
   
 }
 
 void ilk_isik()  {
- 	
+  
   lcd.noBlink();
   delay(5);
   if(isik_durum!=0)
   { 
     bool birinci_isik=bitRead(PORTD,4);
- 	if(birinci_isik==true)
+  if(birinci_isik==true)
     {
       lcd.clear();lcd.print(F("1.ISIK AKTIF"));
     }
-  	else
-  	{
+    else
+    {
       lcd.clear();lcd.print(F("1.ISIK KAPALI"));
       
-  	}
+    }
   }
   lcd.blink();
 }
@@ -814,9 +806,9 @@ void isik_kontrol_hatti2()  {
   if(!bool(0))
   {
     lcd.setCursor(0,0);lcd.print(F("2.ODA ISIK"));
-  	lcd.setCursor(6,1);lcd.print(F("A"));lcd.setCursor(8,1);
-  	lcd.print(F("K"));
-  	lcd.setCursor(0,1);lcd.print(F("<"));
+    lcd.setCursor(6,1);lcd.print(F("A"));lcd.setCursor(8,1);
+    lcd.print(F("K"));
+    lcd.setCursor(0,1);lcd.print(F("<"));
   }  
   lcd.blink();
 }
@@ -827,15 +819,15 @@ void ikinci_isik()  {
   if(isik_durum2!=0)
   { 
     bool birinci_isik2=bitRead(PORTD,5);
- 	if(birinci_isik2==true)
+  if(birinci_isik2==true)
     {
       lcd.clear();lcd.print(F("2.ISIK AKTIF"));
     }
-  	else
-  	{
+    else
+    {
       lcd.clear();lcd.print(F("2.ISIK KAPALI"));
       
-  	}
+    }
   }
   lcd.blink();
 }
@@ -849,9 +841,9 @@ void otomasyon_ekran_hatti() {
   if(!bool(0))
   {
     lcd.setCursor(0,0);lcd.print(F("OTOMASYON BOLUMU"));
-  	lcd.setCursor(6,1);lcd.print(F("A"));lcd.setCursor(8,1);
-  	lcd.print(F("K"));
-  	lcd.setCursor(0,1);lcd.print(F("<"));
+    lcd.setCursor(6,1);lcd.print(F("A"));lcd.setCursor(8,1);
+    lcd.print(F("K"));
+    lcd.setCursor(0,1);lcd.print(F("<"));
   }
   lcd.blink();
   
@@ -865,10 +857,10 @@ void sicakik_ekran_hatti1() {
   if(!bool(0))
   {
     lcd.setCursor(0,0);lcd.print(F("1.ODA SICAKLIK"));
-  	lcd.setCursor(6,1);lcd.print(F("A"));lcd.setCursor(8,1);
-  	lcd.print(F("K"));
-  	lcd.setCursor(0,1);lcd.print(F("<"));
-  	lcd.setCursor(15,1);lcd.print(F(">"));
+    lcd.setCursor(6,1);lcd.print(F("A"));lcd.setCursor(8,1);
+    lcd.print(F("K"));
+    lcd.setCursor(0,1);lcd.print(F("<"));
+    lcd.setCursor(15,1);lcd.print(F(">"));
   }
   lcd.blink();
   
@@ -891,8 +883,8 @@ int birinci_oda_sicaklik() {
                                              
 void birinci_sicaklik_ekran() {
   
- 	lcd.clear();sayac=4;							  
- 	lcd.setCursor(1,0);lcd.print(F("SICAKLIK AYARI")); 
+  lcd.clear();sayac=4;                
+  lcd.setCursor(1,0);lcd.print(F("SICAKLIK AYARI")); 
     lcd.setCursor(4,1);lcd.print(F("+"));            
     lcd.setCursor(7,1);lcd.print(F("-"));lcd.setCursor(9,1);lcd.print(F("D")); 
 }
@@ -905,9 +897,9 @@ void sicakik_ekran_hatti2() {
   if(!bool(0))
   {
     lcd.setCursor(0,0);lcd.print(F("2.ODA SICAKLIK"));
-  	lcd.setCursor(6,1);lcd.print(F("A"));lcd.setCursor(8,1);
-  	lcd.print(F("K"));
-  	lcd.setCursor(0,1);lcd.print(F("<"));lcd.setCursor(15,1);
+    lcd.setCursor(6,1);lcd.print(F("A"));lcd.setCursor(8,1);
+    lcd.print(F("K"));
+    lcd.setCursor(0,1);lcd.print(F("<"));lcd.setCursor(15,1);
     lcd.print(F(">"));
   }
   lcd.blink();
@@ -917,8 +909,8 @@ void sicakik_ekran_hatti2() {
 
 void ikinci_sicaklik_ekran() {
   
- 	lcd.clear();sayac=4;							  
- 	lcd.setCursor(1,0);lcd.print(F("SICAKLIK AYARI")); 
+  lcd.clear();sayac=4;                
+  lcd.setCursor(1,0);lcd.print(F("SICAKLIK AYARI")); 
     lcd.setCursor(4,1);lcd.print(F("+"));            
     lcd.setCursor(7,1);lcd.print(F("-"));lcd.setCursor(9,1);lcd.print(F("D")); 
 }
@@ -950,26 +942,25 @@ void otomasyon_baslatma(int gelen1,int sicaklik1,int gelen2,int sicaklik2) {
   if(!bool(0)) //1. oda sıcaklık kontrolü
   {
     if(sicaklik1<gelen1)
-  	{
+    {
       bitWrite(PORTB,0,LOW);
-  	}
-  	else if(sicaklik1>gelen1)
-  	{
+    }
+    else if(sicaklik1>gelen1)
+    {
       bitWrite(PORTB,0,HIGH);
-  	}
+    }
   }
   if(!bool(0)) // 2. oda sıcaklık kontrolü
   {
     if(sicaklik2<gelen2)
-  	{
+    {
       bitWrite(PORTB,1,LOW);
-  	}
-  	else if(sicaklik2>gelen2)
-  	{
+    }
+    else if(sicaklik2>gelen2)
+    {
       bitWrite(PORTB,1,HIGH);
-  	}
+    }
   }
   
   
 }
-
