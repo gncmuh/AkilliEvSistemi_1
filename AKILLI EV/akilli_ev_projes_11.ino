@@ -34,13 +34,12 @@ LiquidCrystal_I2C  lcd(32,16,2);
 char ekran_karakterleri[]={'<','>','E'};
 int sayac=8;
 bool bayrak=false;
-bool isik_duurm=false;bool klima_durum=false;bool isik_durum=false;
+bool klima_durum=false;bool isik_durum=false;
 bool isik_durum2=false;
 bool klima_durum2=false;
 unsigned long zaman=0;
 int sicaklik1,sicaklik2;
 bool klima_cikis1=false;bool klima_cikis2=false;
-bool guncelleme1=false;bool gunceeleme2=false;
 void setup()
 {
   Serial.begin(9600);
