@@ -9,7 +9,7 @@
 #define sol_yon_tusu 223
 
 struct pinler {
-  const byte pinler[12] PROGMEM={2,3,4,5,6,7,8,9,
+  const byte pinler[12]={2,3,4,5,6,7,8,9,
                                A0,A1,A2};
 };
 struct pinler pin;
