@@ -266,7 +266,7 @@ void ekran_yonetimi() {
                                     if(kumanda.decode(&kaynak))
                                     {
                                       sens.kumanda_gelen=kaynak.value;
-                    if(sens.kumanda_gelen==159)
+                                      if(sens.kumanda_gelen==159)
                                       {
                                         sayac++;
                                         if(sayac>8) sayac=15;
@@ -480,7 +480,7 @@ void ekran_yonetimi() {
                                 if(sens.kumanda_gelen==223)
                                 {
                                   sayac--;
-                  if(sayac<6) sayac=0;
+                                  if(sayac<6) sayac=0;
                                   else if(sayac==14) sayac=7;
                                 }
                                 if(sens.kumanda_gelen==95 and sayac==6)
@@ -597,7 +597,7 @@ void ekran_yonetimi() {
                             delay(1000);
                             goto buradan2;
                             }
-                  if(sens.kumanda_gelen==95 and sayac==0)
+                            if(sens.kumanda_gelen==95 and sayac==0)
                             {
                               goto buradan;
                             }
@@ -784,7 +784,7 @@ void ilk_isik()  {
   if(isik_durum!=0)
   { 
     bool birinci_isik=bitRead(PORTD,4);
-  if(birinci_isik==true)
+    if(birinci_isik==true)
     {
       lcd.clear();lcd.print(F("1.ISIK AKTIF"));
     }
@@ -819,7 +819,7 @@ void ikinci_isik()  {
   if(isik_durum2!=0)
   { 
     bool birinci_isik2=bitRead(PORTD,5);
-  if(birinci_isik2==true)
+    if(birinci_isik2==true)
     {
       lcd.clear();lcd.print(F("2.ISIK AKTIF"));
     }
